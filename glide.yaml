@@ -1,0 +1,7 @@
+package: github.com/mgutz/configpipe
+import:
+- package: github.com/mgutz/jo
+  version: v1.0.0
+- package: github.com/imdario/mergo
+  version: 0.2.2
+- package: github.com/go-yaml/yaml

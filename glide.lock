@@ -1,0 +1,24 @@
+hash: 4e36bee9e1451836c221a168807ed4f09bbf2be91eee77c5abea2a8c17e9f4b9
+updated: 2016-10-31T13:55:53.966781995-07:00
+imports:
+- name: github.com/go-yaml/yaml
+  version: a5b47d31c556af34a302ce5d659e6fea44d90de0
+- name: github.com/imdario/mergo
+  version: 3e95a51e0639b4cf372f2ccf74c86749d747fbdc
+- name: github.com/mgutz/jo
+  version: 7609815e16fdb9239a0e1e353e27c78823ce2beb
+- name: github.com/mgutz/to
+  version: 00c06406c2dd2e011f153a6502a21473676db33f
+testImports:
+- name: github.com/davecgh/go-spew
+  version: 6d212800a42e8ab5c146b8ace3490ee17e5225f9
+  subpackages:
+  - spew
+- name: github.com/pmezard/go-difflib
+  version: d8ed2627bdf02c080bf22230dbb337003b7aba2d
+  subpackages:
+  - difflib
+- name: github.com/stretchr/testify
+  version: 69483b4bd14f5845b5a1e55bca19e954e827f1d0
+  subpackages:
+  - assert
