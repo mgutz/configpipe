@@ -6,15 +6,18 @@ import (
 )
 
 // JSONFile returns a filter that process a JSON file
-func JSONFile(path string) Filter {
+func JSONFile(file *File) Filter {
 	return func(input map[string]interface{}) (map[string]interface{}, error) {
-		file, err := os.Open(path)
+		content := map[string]interface{}{}
+		f, err := os.Open(file.Path)
 		if err != nil {
-			return nil, err
+			if file.MustExist {
+				return nil, err
+			}
+			return Merge(content, input)
 		}
 
-		decoder := json.NewDecoder(file)
-		content := map[string]interface{}{}
+		decoder := json.NewDecoder(f)
 		err = decoder.Decode(&content)
 		if err != nil {
 			return nil, err

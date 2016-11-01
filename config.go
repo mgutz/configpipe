@@ -5,11 +5,8 @@ import (
 	"github.com/mgutz/jo"
 )
 
-// Filter ...
-type Filter func(input map[string]interface{}) (map[string]interface{}, error)
-
 // Run runs a pipeline of configuration filters.
-func Run(pipeline []Filter) (*jo.Object, error) {
+func Run(pipeline []Filter) (*Configuration, error) {
 	var err error
 	m := map[string]interface{}{}
 	for _, filter := range pipeline {
@@ -21,11 +18,11 @@ func Run(pipeline []Filter) (*jo.Object, error) {
 			return nil, err
 		}
 	}
-	return jo.NewFromMap(m), nil
+	return &Configuration{jo.NewFromMap(m)}, nil
 }
 
 // Runv processes a pipeline using variable arguments.
-func Runv(filters ...Filter) (*jo.Object, error) {
+func Runv(filters ...Filter) (*Configuration, error) {
 	return Run(filters)
 }
 

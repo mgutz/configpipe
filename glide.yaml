@@ -5,3 +5,4 @@ import:
 - package: github.com/imdario/mergo
   version: 0.2.2
 - package: github.com/go-yaml/yaml
+- package: github.com/mgutz/configpipe

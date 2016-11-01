@@ -7,14 +7,18 @@ import (
 )
 
 // YAMLFile returns a filter that process a YAML file
-func YAMLFile(path string) Filter {
+func YAMLFile(file *File) Filter {
 	return func(input map[string]interface{}) (map[string]interface{}, error) {
-		content, err := ioutil.ReadFile(path)
+		obj := map[string]interface{}{}
+
+		content, err := ioutil.ReadFile(file.Path)
 		if err != nil {
-			return nil, err
+			if file.MustExist {
+				return nil, err
+			}
+			return Merge(obj, input)
 		}
 
-		obj := map[string]interface{}{}
 		err = yaml.Unmarshal(content, &obj)
 		if err != nil {
 			return nil, err

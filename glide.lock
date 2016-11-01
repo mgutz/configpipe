@@ -1,10 +1,12 @@
-hash: 4e36bee9e1451836c221a168807ed4f09bbf2be91eee77c5abea2a8c17e9f4b9
-updated: 2016-10-31T13:55:53.966781995-07:00
+hash: ffc667d19e12bd41fd85e70707f1bfa3f2efe089d2f9544a87dcffad95cb16d9
+updated: 2016-11-01T14:17:37.433383703-07:00
 imports:
 - name: github.com/go-yaml/yaml
   version: a5b47d31c556af34a302ce5d659e6fea44d90de0
 - name: github.com/imdario/mergo
   version: 3e95a51e0639b4cf372f2ccf74c86749d747fbdc
+- name: github.com/mgutz/configpipe
+  version: 1d4d88bfb6bf7c044a4b3171bee58dc224b7d67e
 - name: github.com/mgutz/jo
   version: 7609815e16fdb9239a0e1e353e27c78823ce2beb
 - name: github.com/mgutz/to
