@@ -8,7 +8,7 @@ import (
 // Filter ...
 type Filter func(input map[string]interface{}) (map[string]interface{}, error)
 
-// Run runs a pipeline of filters.
+// Run runs a pipeline of configuration filters.
 func Run(pipeline []Filter) (*jo.Object, error) {
 	var err error
 	m := map[string]interface{}{}
