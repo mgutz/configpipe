@@ -3,6 +3,8 @@ package configpipe
 import (
 	"os"
 	"regexp"
+
+	"github.com/mgutz/jo"
 	//"strings"
 )
 
@@ -66,13 +68,10 @@ func parseArgs() map[string]interface{} {
 //		passthrough == []string{"--foo=bar", "--bar=bah"}
 func parseArgv(argv []string, nonFlagsKey string, passthroughKey string) map[string]interface{} {
 	rest := []string{}
-	result := map[string]interface{}{
-		nonFlagsKey:    rest,
-		passthroughKey: []string{},
-	}
+	result := jo.New()
 
-	setArg := func(key string, val interface{}) {
-		result[key] = val
+	setKV := func(key string, val interface{}) {
+		result.Set(key, val)
 	}
 
 	l := len(argv)
@@ -87,8 +86,8 @@ func parseArgv(argv []string, nonFlagsKey string, passthroughKey string) map[str
 	for i < len(argv) {
 		arg := argv[i]
 
-		if arg == passthroughKey {
-			result[passthroughKey] = argv[i+1:]
+		if arg == "--" {
+			setKV(passthroughKey, argv[i+1:])
 			break
 		}
 
@@ -103,13 +102,13 @@ func parseArgv(argv []string, nonFlagsKey string, passthroughKey string) map[str
 
 			m := longFormEqualValsRe.FindStringSubmatch(arg)
 			//fmt.Printf("--long-form= %s\n", arg)
-			setArg(m[1], m[2])
+			setKV(m[1], m[2])
 
 		} else if negateRe.MatchString(arg) {
 			//fmt.Printf("--no-flag %s\n", arg)
 
 			m := negateValsRe.FindStringSubmatch(arg)
-			setArg(m[1], false)
+			setKV(m[1], false)
 
 		} else if longFormRe.MatchString(arg) {
 			// --long-form
@@ -120,12 +119,12 @@ func parseArgv(argv []string, nonFlagsKey string, passthroughKey string) map[str
 
 			if next == "" {
 				// --arg
-				setArg(key, true)
+				setKV(key, true)
 			} else if next[0:1] == nonFlagsKey {
 				// --arg -o | --arg --other
-				setArg(key, true)
+				setKV(key, true)
 			} else {
-				setArg(key, next)
+				setKV(key, next)
 				i++
 			}
 		} else if shortFormRe.MatchString(arg) {
@@ -147,22 +146,22 @@ func parseArgv(argv []string, nonFlagsKey string, passthroughKey string) map[str
 			for k < len(letters) {
 				next := arg[k+2:]
 				if next == nonFlagsKey {
-					setArg(lettersAt(k), next)
+					setKV(lettersAt(k), next)
 					k++
 					continue
 				}
 				if lettersRe.MatchString(lettersAt(k)) && numberRe.MatchString(next) {
-					setArg(lettersAt(k), next)
+					setKV(lettersAt(k), next)
 					broken = true
 					break
 				}
 				if k+1 < len(letters) && notWordRe.MatchString(lettersAt(k+1)) {
-					setArg(lettersAt(k), next)
+					setKV(lettersAt(k), next)
 					broken = true
 					break
 				}
 
-				setArg(lettersAt(k), true)
+				setKV(lettersAt(k), true)
 				k++
 			}
 
@@ -172,20 +171,20 @@ func parseArgv(argv []string, nonFlagsKey string, passthroughKey string) map[str
 				if i+1 < len(argv) {
 					nextArg := argv[i+1]
 					if !dashesRe.MatchString(nextArg) {
-						setArg(key, nextArg)
+						setKV(key, nextArg)
 						i++
 					}
 				} else {
-					setArg(key, true)
+					setKV(key, true)
 				}
 			}
 		} else {
 			rest = append(rest, arg)
-			result[nonFlagsKey] = rest
+			setKV(nonFlagsKey, rest)
 		}
 
 		i++
 	}
 
-	return result
+	return result.AsMap(".")
 }

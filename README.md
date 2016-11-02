@@ -5,6 +5,7 @@ of Filter function.
 
 Simpler configuration using pipe and filters.
 
+
 ## Motivation
 
 1.  Treat all configuration sources as filters that process and merge map of values.
