@@ -19,5 +19,17 @@ type File struct {
 	WatchInterval time.Duration
 }
 
-// Filter is a step in the configuration pipeline.
-type Filter func(input map[string]interface{}) (map[string]interface{}, error)
+// FilterFunc is a helper that wraps a function to implement
+// the Filter interface.
+type FilterFunc func(input map[string]interface{}) (map[string]interface{}, error)
+
+// Process implements the Filter interface.
+func (ff FilterFunc) Process(input map[string]interface{}) (map[string]interface{}, error) {
+	return ff(input)
+}
+
+// Filter processes an input map and returns a new map, usually
+// merging values over a copy of the input.
+type Filter interface {
+	Process(input map[string]interface{}) (map[string]interface{}, error)
+}

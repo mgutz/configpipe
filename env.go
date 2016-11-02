@@ -14,7 +14,7 @@ import (
 func Env(prefix string, dotSeparator string) Filter {
 	L := len(prefix)
 
-	return func(input map[string]interface{}) (map[string]interface{}, error) {
+	return FilterFunc(func(input map[string]interface{}) (map[string]interface{}, error) {
 		o := jo.New()
 		for _, item := range os.Environ() {
 			splits := strings.Split(item, "=")
@@ -48,5 +48,5 @@ func Env(prefix string, dotSeparator string) Filter {
 		}
 
 		return Merge(m, input)
-	}
+	})
 }

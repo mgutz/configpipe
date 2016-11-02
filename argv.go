@@ -9,8 +9,8 @@ func Argv() Filter {
 
 // ArgvKeys parses command line args using minimist package.
 func ArgvKeys(nonFlagsKey string, passthroughArgsKey string) Filter {
-	return func(input map[string]interface{}) (map[string]interface{}, error) {
+	return FilterFunc(func(input map[string]interface{}) (map[string]interface{}, error) {
 		m := parseArgv(os.Args[1:], nonFlagsKey, passthroughArgsKey)
 		return Merge(m, input)
-	}
+	})
 }

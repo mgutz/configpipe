@@ -13,7 +13,7 @@ func Run(pipeline []Filter) (*Configuration, error) {
 		if filter == nil {
 			continue
 		}
-		m, err = filter(m)
+		m, err = filter.Process(m)
 		if err != nil {
 			return nil, err
 		}
@@ -30,13 +30,17 @@ func Runv(filters ...Filter) (*Configuration, error) {
 func Merge(left map[string]interface{}, right map[string]interface{}) (map[string]interface{}, error) {
 	m := map[string]interface{}{}
 
-	err := mergo.Merge(&m, left)
-	if err != nil {
-		return nil, err
+	if left != nil {
+		if err := mergo.Merge(&m, left); err != nil {
+			return nil, err
+		}
 	}
-	err = mergo.Merge(&m, right)
-	if err != nil {
-		return nil, err
+
+	if right != nil {
+		if err := mergo.Merge(&m, right); err != nil {
+			return nil, err
+		}
 	}
+
 	return m, nil
 }

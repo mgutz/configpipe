@@ -16,10 +16,10 @@ Simpler configuration using pipe and filters.
     * HCL file or string
     * etcd
 
-    The advantage of filters is one can add custom filters such as decrypting 
+    The advantage of filters is one can add custom filters such as decrypting
     some keys.
-   
-2.  Explicit merge order for overriding values. 
+
+2.  Explicit merge order for overriding values.
 
 3.  Run-time or remote changes
 
@@ -40,9 +40,9 @@ Simpler configuration using pipe and filters.
     func init() {
         goenv := os.Getenv("go_env")
 
-        var productionFile conf.Filter
+        var prodConfig conf.Filter
         if govenv == "production" {
-            productionFile = conf.YAMLFile(&conf.File{Path: "config.yaml", MustExist: true})
+             prodConfig = conf.YAMLFile(&conf.File{Path: "config.yaml", MustExist: true})
         }
 
         // later filters override earlier filters
@@ -51,10 +51,7 @@ Simpler configuration using pipe and filters.
             conf.JSONFile(&conf.File{Path: "config.json"}),
 
             // Any nil filter is noop, so this WILL NOT be processed in development mode.
-            productionFile,
-
-            // read from Etcd
-            conf.Etcd(connectionString, pattern),
+            prodConfig,
 
             // read from environment variables that have prefix "CFG_" and replace "_" with "." for JSON Path
             conf.Env("CFG_", "_"),
@@ -62,8 +59,8 @@ Simpler configuration using pipe and filters.
             // read from argv
             confg.Argv(),
 
-            // use custom decryptor to decrypt encrypted values
-            decryptor,
+            // use custom filter to decrypt encrypted values
+            conf.FilterFunc(decryptor),
         )
     }
 
