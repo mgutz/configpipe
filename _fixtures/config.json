@@ -1,4 +1,7 @@
 {
 	"format": "json",
-	"numbers": [10, 11, 12]
+	"numbers": [10, 11, 12],
+	"json": {
+		"key": "jsonstring"
+	}
 }

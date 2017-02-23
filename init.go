@@ -13,7 +13,7 @@ type Configuration struct {
 
 // File is the argument for file-based configurations.
 type File struct {
-	MustExist     bool
+	IgnoreErrors  bool
 	Path          string
 	Watch         bool
 	WatchInterval time.Duration

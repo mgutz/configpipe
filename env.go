@@ -24,7 +24,6 @@ func Env(prefix string, dotSeparator string) Filter {
 			// check prefix and discard it if found, otherwise ignore the key
 			if prefix != "" {
 				pos := strings.Index(key, prefix)
-				// fmt.Println("pos", pos)
 				if pos != 0 {
 					continue
 				}
@@ -32,13 +31,12 @@ func Env(prefix string, dotSeparator string) Filter {
 			}
 
 			// allow dot representation, eg "sever_port" => "server.port"
+			// some OS do not allow dots in env var name
 			if dotSeparator != "" {
 				key = strings.Replace(key, dotSeparator, ".", -1)
 			}
 
 			val := strings.Join(splits[1:], "=")
-			// fmt.Println("key", key)
-			// fmt.Println("value", val)
 			o.Set(key, val)
 		}
 

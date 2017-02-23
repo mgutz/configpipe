@@ -10,15 +10,15 @@ func TestYAMLString(t *testing.T) {
 	j := `
 two: 2
 `
-	config, err := Runv(YAMLString(yaml1), YAMLString(j))
+	config, err := Processv(YAMLString(yaml1), YAMLString(j))
 	assert.NoError(t, err)
 	assert.Equal(t, 100, config.MustInt("yint"))
 	assert.Equal(t, 2, config.MustInt("two"))
 }
 
 func TestYAMLFile(t *testing.T) {
-	config, err := Runv(
-		YAMLFile(&File{Path: "./_fixtures/config.yaml"}),
+	config, err := Processv(
+		YAML(&File{Path: "./_fixtures/config.yaml"}),
 		YAMLString(yaml1),
 	)
 	assert.NoError(t, err)
@@ -27,18 +27,18 @@ func TestYAMLFile(t *testing.T) {
 }
 
 func TestYAMLFileMissing(t *testing.T) {
-	config, err := Runv(
-		YAMLFile(&File{Path: "./_fixtures/missing.yaml"}),
+	_, err := Processv(
+		YAML(&File{Path: "./_fixtures/missing.yaml"}),
+		YAMLString(yaml1),
+	)
+	assert.Error(t, err)
+}
+
+func TestYAMLFileMissingIgnore(t *testing.T) {
+	config, err := Processv(
+		YAML(&File{Path: "./_fixtures/missing.yaml", IgnoreErrors: true}),
 		YAMLString(yaml1),
 	)
 	assert.NoError(t, err)
 	assert.Equal(t, 100, config.MustInt("yint"))
-}
-
-func TestYAMLFileMissingIgnore(t *testing.T) {
-	_, err := Runv(
-		YAMLFile(&File{Path: "./_fixtures/missing.yaml", MustExist: true}),
-		YAMLString(yaml1),
-	)
-	assert.Error(t, err)
 }

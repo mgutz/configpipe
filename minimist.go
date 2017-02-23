@@ -67,7 +67,7 @@ func parseArgs() map[string]interface{} {
 // passthroughKey is the key for arguments that are pass through, For example `app -foo bar -- --foo=bar --bar=bah
 //		passthrough == []string{"--foo=bar", "--bar=bah"}
 func parseArgv(argv []string, nonFlagsKey string, passthroughKey string) map[string]interface{} {
-	rest := []string{}
+	rest := []interface{}{} // must be interface{} to work generic JSON maps
 	result := jo.New()
 
 	setKV := func(key string, val interface{}) {

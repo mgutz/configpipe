@@ -6,16 +6,16 @@ import (
 	"github.com/mgutz/yaml"
 )
 
-// YAMLFile returns a filter that process a YAML file
-func YAMLFile(file *File) Filter {
+// YAML returns a filter that process a YAML file
+func YAML(file *File) Filter {
 	return FilterFunc(func(input map[string]interface{}) (map[string]interface{}, error) {
 		obj := map[string]interface{}{}
 		content, err := ioutil.ReadFile(file.Path)
 		if err != nil {
-			if file.MustExist {
-				return nil, err
+			if file.IgnoreErrors {
+				return Merge(obj, input)
 			}
-			return Merge(obj, input)
+			return nil, err
 		}
 
 		err = yaml.Unmarshal(content, &obj)

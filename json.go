@@ -5,16 +5,16 @@ import (
 	"os"
 )
 
-// JSONFile returns a filter that process a JSON file
-func JSONFile(file *File) Filter {
+// JSON returns a filter that process a JSON file
+func JSON(file *File) Filter {
 	return FilterFunc(func(input map[string]interface{}) (map[string]interface{}, error) {
 		content := map[string]interface{}{}
 		f, err := os.Open(file.Path)
 		if err != nil {
-			if file.MustExist {
-				return nil, err
+			if file.IgnoreErrors {
+				return Merge(content, input)
 			}
-			return Merge(content, input)
+			return nil, err
 		}
 
 		decoder := json.NewDecoder(f)

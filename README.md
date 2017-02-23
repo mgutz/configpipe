@@ -39,15 +39,16 @@ Simpler configuration using pipe and filters.
     }
 
     func init() {
-        goenv := os.Getenv("go_env")
+        envmode := os.Getenv("run_env")
 
         var prodConfig conf.Filter
-        if govenv == "production" {
+        if envmode == "production" {
              prodConfig = conf.YAMLFile(&conf.File{Path: "config.yaml", MustExist: true})
         }
 
-        // later filters override earlier filters
-        config, err := conf.Runv(
+        // filters execute left to right, which means later filters merge over
+        // earlier filters
+        config, err := conf.Processv(
             // read from config.json file (if present)
             conf.JSONFile(&conf.File{Path: "config.json"}),
 
@@ -68,7 +69,7 @@ Simpler configuration using pipe and filters.
 
 ## Reading values
 
-    // go way
+    // idiomatic, verbose way
     s, err := config.String("USER")
     n, err := config.Int64("nested.key")
 

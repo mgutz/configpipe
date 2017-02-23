@@ -1,3 +1,5 @@
 ---
 format: yaml
-numbers: [101, 102, 103] 
+numbers: [101, 102, 103]
+yaml:
+  key: yamlstring
