@@ -14,8 +14,7 @@ Simpler configuration using pipe and filters.
     * Environment variables
     * YAML file or string
     * JSON file or string
-    * HCL file or string
-    * etcd
+    * UCL file or string
 
     The advantage of filters is one can add custom filters such as decrypting
     some keys.
