@@ -16,7 +16,7 @@ func TestEnv(t *testing.T) {
 
 	os.Setenv("PREFIX_users_mario", "me")
 
-	config, err := Processv(JSONString(j1), Env("PREFIX_", "_"))
+	config, err := Process(JSONString(j1), Env("PREFIX_", "_"))
 	assert.NoError(t, err)
 	assert.Equal(t, config.MustInt("one"), 1)
 	assert.Equal(t, config.MustString("users.mario"), "me")

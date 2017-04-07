@@ -12,14 +12,14 @@ func TestJSONString(t *testing.T) {
 	"two": 2
 }
 `
-	config, err := Processv(JSONString(json1), JSONString(j))
+	config, err := Process(JSONString(json1), JSONString(j))
 	assert.NoError(t, err)
 	assert.Equal(t, 10, config.MustInt("jint"))
 	assert.Equal(t, 2, config.MustInt("two"))
 }
 
 func TestJSONFile(t *testing.T) {
-	config, err := Processv(
+	config, err := Process(
 		JSON(&File{Path: "./_fixtures/config.json"}),
 		JSONString(json1),
 	)
@@ -29,7 +29,7 @@ func TestJSONFile(t *testing.T) {
 }
 
 func TestJSONFileMissing(t *testing.T) {
-	_, err := Processv(
+	_, err := Process(
 		JSON(&File{Path: "./_fixtures/missing.json"}),
 		JSONString(json1),
 	)
@@ -37,7 +37,7 @@ func TestJSONFileMissing(t *testing.T) {
 }
 
 func TestJSONFileMissingIgnore(t *testing.T) {
-	config, err := Processv(
+	config, err := Process(
 		JSON(&File{Path: "./_fixtures/missing.json", IgnoreErrors: true}),
 		JSONString(json1),
 	)

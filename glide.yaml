@@ -6,4 +6,5 @@ import:
   version: 0.2.2
 - package: github.com/mgutz/yaml
   version: map-string
-- package: github.com/mgutz/configpipe
+- package: github.com/hashicorp/hcl
+- package: github.com/nahanni/go-ucl

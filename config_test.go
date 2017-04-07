@@ -10,7 +10,7 @@ import (
 func TestMultiple(t *testing.T) {
 	os.Setenv("PREFIX_users_mario", "me")
 
-	config, err := Processv(
+	config, err := Process(
 		JSONString(json1),
 		Trace(),
 		JSON(&File{Path: "./_fixtures/config.json"}),
@@ -19,6 +19,10 @@ func TestMultiple(t *testing.T) {
 		Trace(),
 		Env("PREFIX_", "_"),
 		Trace(),
+		UCLString(ucl1),
+		Trace(),
+		UCL(&File{Path: "./_fixtures/config.ucl"}),
+		Trace(),
 	)
 
 	assert.NoError(t, err)
@@ -26,6 +30,7 @@ func TestMultiple(t *testing.T) {
 	assert.Equal(t, config.MustString("users.mario"), "me")
 	assert.Equal(t, config.MustString("json.key"), "jsonstring")
 	assert.Equal(t, config.MustString("yaml.key"), "yamlstring")
+	assert.Equal(t, config.MustString("ucl.key"), "uclstring")
 
 	// should not include other vars like USER  due to prefix being specified
 	assert.Equal(t, config.AsString("USER"), "")

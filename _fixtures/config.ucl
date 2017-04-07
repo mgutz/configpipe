@@ -1,0 +1,10 @@
+// some comment
+format = "ucl"
+
+// these should be unique
+numbers = [91, 92, 923]
+
+ucl {
+	key = "uclstring"
+	numb = 1
+}

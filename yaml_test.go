@@ -10,14 +10,14 @@ func TestYAMLString(t *testing.T) {
 	j := `
 two: 2
 `
-	config, err := Processv(YAMLString(yaml1), YAMLString(j))
+	config, err := Process(YAMLString(yaml1), YAMLString(j))
 	assert.NoError(t, err)
 	assert.Equal(t, 100, config.MustInt("yint"))
 	assert.Equal(t, 2, config.MustInt("two"))
 }
 
 func TestYAMLFile(t *testing.T) {
-	config, err := Processv(
+	config, err := Process(
 		YAML(&File{Path: "./_fixtures/config.yaml"}),
 		YAMLString(yaml1),
 	)
@@ -27,7 +27,7 @@ func TestYAMLFile(t *testing.T) {
 }
 
 func TestYAMLFileMissing(t *testing.T) {
-	_, err := Processv(
+	_, err := Process(
 		YAML(&File{Path: "./_fixtures/missing.yaml"}),
 		YAMLString(yaml1),
 	)
@@ -35,7 +35,7 @@ func TestYAMLFileMissing(t *testing.T) {
 }
 
 func TestYAMLFileMissingIgnore(t *testing.T) {
-	config, err := Processv(
+	config, err := Process(
 		YAML(&File{Path: "./_fixtures/missing.yaml", IgnoreErrors: true}),
 		YAMLString(yaml1),
 	)

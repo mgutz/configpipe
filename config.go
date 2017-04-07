@@ -5,8 +5,8 @@ import (
 	"github.com/mgutz/jo"
 )
 
-// Process processes a pipeline of configuration filters.
-func Process(pipeline []Filter) (*Configuration, error) {
+// ProcessSlice processes a pipeline of configuration filters.
+func ProcessSlice(pipeline []Filter) (*Configuration, error) {
 	var err error
 	m := map[string]interface{}{}
 	for _, filter := range pipeline {
@@ -21,9 +21,9 @@ func Process(pipeline []Filter) (*Configuration, error) {
 	return &Configuration{jo.NewFromMap(m)}, nil
 }
 
-// Processv processes a pipeline using variable arguments.
-func Processv(filters ...Filter) (*Configuration, error) {
-	return Process(filters)
+// Process processes a pipeline using variable arguments.
+func Process(filters ...Filter) (*Configuration, error) {
+	return ProcessSlice(filters)
 }
 
 // Merge merges two maps returning a new map.

@@ -1,14 +1,27 @@
-hash: c783e6711e46f3a857bab7bd8e9f87efd5b7132114b7d99712892ba497687c0d
-updated: 2016-11-02T11:48:56.246845677-07:00
+hash: 73a04957cdb651e2d3287c911faf4355fa93b40499425c9635401bbb61683d6a
+updated: 2017-03-30T07:45:51.349037046-07:00
 imports:
+- name: github.com/hashicorp/hcl
+  version: 630949a3c5fa3c613328e1b8256052cbc2327c9b
+  subpackages:
+  - hcl/ast
+  - hcl/parser
+  - hcl/scanner
+  - hcl/strconv
+  - hcl/token
+  - json/parser
+  - json/scanner
+  - json/token
 - name: github.com/imdario/mergo
   version: 3e95a51e0639b4cf372f2ccf74c86749d747fbdc
 - name: github.com/mgutz/jo
-  version: 7609815e16fdb9239a0e1e353e27c78823ce2beb
+  version: e755681d31aec133e9bdf012e9fd2020a388ceff
 - name: github.com/mgutz/to
   version: 00c06406c2dd2e011f153a6502a21473676db33f
 - name: github.com/mgutz/yaml
   version: fa84835a587118b5ebe80c9b66ecd5a4d96e93ea
+- name: github.com/nahanni/go-ucl
+  version: 3788fcf0dad8868285c3ebb779fae2856b48da61
 testImports:
 - name: github.com/davecgh/go-spew
   version: 6d212800a42e8ab5c146b8ace3490ee17e5225f9
